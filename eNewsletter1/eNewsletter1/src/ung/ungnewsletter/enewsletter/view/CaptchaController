@@ -1,0 +1,22 @@
+import org.javalite.activeweb.AppController;
+
+import java.io.IOException;
+
+import static org.javalite.activeweb.Captcha.*;
+
+/**
+ * @author Igor Polevoy
+ */
+public class CaptchaController extends AppController {
+
+
+    public void captcha() throws IOException {
+        outputStream("image/png").write(generateImage(session().get("captcha").toString()));
+    }
+
+    public void recaptcha(){
+        String captcha = generateText();
+        session().put("captcha", captcha);
+        view("id", System.currentTimeMillis());
+        render("/posts/_captcha").noLayout();
+    }
